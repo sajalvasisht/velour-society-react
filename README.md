@@ -1,16 +1,37 @@
-# React + Vite
+# Velour Society (React Version)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is the React conversion of the Velour Society e-commerce project for our college evaluation.
 
-Currently, two official plugins are available:
+## How to Run This Project
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+You must run **TWO** servers at the same time for this project to work.
 
-## React Compiler
+### Prerequisites
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+1.  Install `json-server` globally (you only need to do this once):
+    ```bash
+    npm install -g json-server
+    ```
 
-## Expanding the ESLint configuration
+### Running the App
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+1.  Clone the repo and install all the React packages:
+    ```bash
+    git clone [https://github.com/](https://github.com/)[YOUR_USERNAME]/velour-society-react.git
+    cd velour-society-react
+    npm install
+    ```
+
+2.  **Start Server 1 (The React App):**
+    Open a terminal and run:
+    ```bash
+    npm run dev
+    ```
+
+3.  **Start Server 2 (The Database):**
+    Open a **NEW** terminal (in the *same* folder) and run:
+    ```bash
+    json-server --watch db.json
+    ```
+
+The app will be running at `http://localhost:5173`.
