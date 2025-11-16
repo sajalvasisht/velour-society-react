@@ -1,0 +1,64 @@
+:root {
+  --font-heading: 'Playfair Display', serif;
+  --font-body: 'Montserrat', sans-serif;
+}
+
+.category-page {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.category-split-panel {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-size: cover;
+  background-position: center;
+  color: #fff;
+  text-decoration: none;
+}
+
+.category-split-panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.category-split-panel .content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+  opacity: 0.9;
+}
+
+.category-split-panel:hover .content {
+  transform: scale(1.05);
+  opacity: 1;
+}
+
+.category-split-panel h2 {
+  font-size: 3.5rem;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+  margin-bottom: 1rem;
+}
+
+.category-split-panel p {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  border: 1px solid #fff;
+  padding: 0.5rem 1.5rem;
+  border-radius: 20px;
+  display: inline-block;
+  background-color: rgba(0,0,0,0.2);
+  backdrop-filter: blur(4px);
+}

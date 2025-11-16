@@ -1,0 +1,265 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&display=swap');
+
+:root {
+  --font-heading: 'Playfair Display', serif;
+  --font-body: 'Montserrat', sans-serif;
+  --color-gold: #d4af37;
+  --color-dark: #1a1a1a;
+  --color-light: #f8f8f8;
+}
+
+/* Page-specific Header */
+.page-header {
+  position: sticky; /* Use sticky, not fixed, for page content */
+  top: 0;
+  width: 100%;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.page-header .navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 3rem;
+  color: var(--color-dark);
+}
+
+.page-header .logo {
+  font-family: var(--font-heading);
+  font-size: 1.8rem;
+  font-weight: bold;
+  letter-spacing: 2px;
+  color: var(--color-dark);
+  text-decoration: none;
+}
+
+.page-header .menu {
+  list-style: none;
+  display: flex;
+  gap: 2rem;
+}
+
+.page-header .menu li a {
+  text-decoration: none;
+  color: var(--color-dark);
+  font-weight: 500;
+  transition: color 0.3s;
+  font-family: var(--font-body);
+}
+
+.page-header .menu li a:hover,
+.page-header .menu li a.active {
+  color: var(--color-gold);
+}
+
+.page-header .icons {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.page-header .icons input {
+  padding: 0.4rem 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  outline: none;
+  font-family: var(--font-body);
+}
+
+.page-header .icons a {
+  text-decoration: none;
+  font-size: 1.2rem;
+  color: var(--color-dark);
+  font-family: var(--font-body);
+}
+
+/* Hero Section */
+.hero {
+  color: #fff;
+  padding: 8rem 2rem 4rem;
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: 3.5rem;
+  font-weight: 400;
+  margin-bottom: 1rem;
+}
+
+.hero p {
+  font-size: 1.3rem;
+  margin-bottom: 2rem;
+  opacity: 0.9;
+  font-family: var(--font-body);
+}
+
+.hero button {
+  padding: 1rem 2.5rem;
+  font-size: 1.1rem;
+  border: 2px solid var(--color-gold);
+  border-radius: 30px;
+  background: var(--color-gold);
+  color: #fff;
+  cursor: pointer;
+  font-family: var(--font-body);
+}
+
+.hero button:hover {
+  background: transparent;
+  color: var(--color-gold);
+}
+
+/* Collection Grid */
+.collection {
+  padding: 6rem 4rem;
+  background: var(--color-light);
+}
+
+.collection-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.collection-header h2 {
+  font-size: 2.8rem;
+  font-weight: 400;
+  margin-bottom: 1rem;
+}
+
+.collection-header p {
+  font-size: 1.1rem;
+  color: #666;
+  max-width: 600px;
+  margin: 0 auto;
+  font-family: var(--font-body);
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 3rem;
+  margin-top: 3rem;
+}
+
+.product-card {
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+.product-image {
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid #eee;
+}
+
+.product-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.product-info {
+  padding: 1.5rem;
+}
+
+.product-info h3 {
+  font-size: 1.3rem;
+  font-weight: 400;
+  margin-bottom: 0.5rem;
+}
+
+.product-info p {
+  font-size: 1.1rem;
+  color: var(--color-gold);
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  font-family: var(--font-body);
+}
+
+.product-info .description {
+  font-size: 0.9rem;
+  color: #666;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+  font-family: var(--font-body);
+}
+
+.add-to-cart {
+  padding: 0.8rem 1.5rem;
+  background: var(--color-gold);
+  color: #fff;
+  border: none;
+  border-radius: 25px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-block;
+  font-family: var(--font-body);
+}
+.add-to-cart:hover {
+  background: var(--color-dark);
+}
+
+/* Page Footer */
+.page-footer {
+  background: var(--color-dark);
+  color: #fff;
+  text-align: center;
+  padding: 4rem 2rem;
+  font-size: 0.9rem;
+}
+
+.page-footer p {
+  margin-bottom: 1rem;
+  opacity: 0.8;
+  font-family: var(--font-body);
+}
+
+.page-footer a {
+  color: #fff;
+  text-decoration: none;
+  margin: 0 1rem;
+  transition: color 0.3s;
+  opacity: 0.8;
+  font-family: var(--font-body);
+}
+
+.page-footer a:hover {
+  color: var(--color-gold);
+  opacity: 1;
+}
+/* --- Quantity Controls --- */
+.quantity-selector {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.quantity-selector button {
+  padding: 0.4rem 0.8rem;
+  border: 1px solid var(--color-dark);
+  border-radius: 5px;
+  background: #fff;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+.quantity-selector span.qty {
+  min-width: 25px;
+  text-align: center;
+  font-weight: 500;
+  font-family: var(--font-body);
+}

@@ -1,0 +1,170 @@
+/* --- GLOBAL STYLES --- */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+.hidden { display: none; }
+:root {
+  --font-heading: 'Playfair Display', serif;
+  --font-body: 'Montserrat', sans-serif;
+  --color-gold: #d4af37;
+}
+
+body {
+  font-family: var(--font-heading);
+  background: #fff;
+  color: #111;
+}
+/* This class will be added/removed by React to fix scrolling */
+body.no-scroll {
+  overflow: hidden;
+  height: 100vh;
+}
+p, button, input, .main-menu li a, footer {
+  font-family: var(--font-body);
+}
+
+/* --- GLOBAL HEADER (for Home Page) --- */
+#main-header {
+  position: fixed; top: 0; width: 100%; z-index: 10;
+  background: transparent;
+  transition: background 0.4s ease;
+}
+#main-header.scrolled {
+  background: rgba(10, 10, 10, 0.7);
+  backdrop-filter: blur(10px);
+}
+#main-header .navbar {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 1rem 3rem; color: #fff;
+}
+#main-header .logo-link { text-decoration: none; color: #fff; }
+#main-header .logo {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.6rem; font-weight: 300; text-transform: uppercase;
+  letter-spacing: 6px; color: #fff; padding-left: 6px;
+}
+#main-header .main-menu { list-style: none; display: flex; gap: 2.5rem; }
+#main-header .main-menu li a {
+  text-decoration: none; color: #fff; font-size: 1rem;
+  transition: color 0.3s ease;
+}
+#main-header .main-menu li a:hover { color: var(--color-gold); }
+#main-header .icons { display: flex; align-items: center; }
+#main-header .icons input {
+  padding: 0.4rem 0.8rem; border: 1px solid #fff;
+  background: transparent; color: #fff; border-radius: 20px;
+}
+#main-header .icons a {
+  margin-left: 1rem; font-size: 1.2rem;
+  text-decoration: none; color: #fff;
+}
+#main-header .hamburger { display: none; cursor: pointer; }
+#main-header .hamburger .bar {
+  display: block; width: 25px; height: 2px;
+  margin: 5px auto; background-color: #fff; transition: 0.3s;
+}
+
+/* --- GLOBAL MOBILE NAV PANEL --- */
+.mobile-nav {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.95); z-index: 100;
+  display: flex; flex-direction: column; justify-content: center;
+  align-items: center; opacity: 0; visibility: hidden;
+  transition: opacity 0.4s ease;
+}
+.mobile-nav a {
+  color: #fff; text-decoration: none;
+  font-size: 2rem; margin: 1.5rem 0;
+}
+
+/* --- GLOBAL LOGIN/SIGNUP PANEL --- */
+.page-overlay {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.5); z-index: 999;
+  opacity: 0; visibility: hidden;
+}
+.login-signup-panel {
+  position: fixed; top: 0; right: 0; height: 100vh;
+  width: 90%; max-width: 600px; background: #fff; z-index: 1000;
+  transform: translateX(100%);
+  transition: transform 0.6s ease;
+}
+.close-btn {
+  position: absolute; top: 1rem; right: 1.5rem;
+  font-size: 2.5rem; color: #888; background: none;
+  border: none; cursor: pointer;
+}
+.close-btn:hover { color: #111; transform: rotate(90deg); }
+.panel-content { padding: 5rem 3.5rem; }
+.form-toggle {
+  display: flex; justify-content: center;
+  margin-bottom: 2.5rem; border-bottom: 1px solid #e5e5e5;
+}
+.toggle-btn {
+  font-size: 1rem; background: none; border: none;
+  padding: 0 1rem 1rem 1rem; cursor: pointer; color: #888;
+  position: relative; transition: color 0.3s ease;
+}
+.toggle-btn.active { color: #111; }
+.toggle-btn.active::after {
+  content: ''; position: absolute; bottom: -1px; left: 0;
+  width: 100%; height: 2px; background: #111;
+}
+.form-container h2 { font-size: 2.2rem; margin-bottom: 0.5rem; text-align: center; }
+.form-container > p { color: #666; text-align: center; margin-bottom: 3rem; }
+.input-group { margin-bottom: 2rem; }
+.input-group label {
+  font-size: 0.8rem; color: #555;
+  text-transform: uppercase; display: block;
+}
+.input-group input {
+  width: 100%; padding: 0.8rem 0; font-size: 1rem;
+  border: none; border-bottom: 1px solid #ccc; background: transparent;
+}
+.input-group input:focus { border-color: #111; }
+.forgot-password {
+  display: block; text-align: right; color: #555;
+  text-decoration: none; margin-bottom: 2rem;
+}
+.form-btn {
+  width: 100%; padding: 1rem; text-transform: uppercase;
+  background: #111; color: #fff; border: none; cursor: pointer;
+}
+.form-btn:hover { background: var(--color-gold); }
+.terms { font-size: 0.85rem; color: #888; text-align: center; margin-bottom: 1.5rem; }
+.separator {
+  display: flex; align-items: center; text-align: center;
+  color: #aaa; margin: 2.5rem 0;
+}
+.separator::before, .separator::after {
+  content: ''; flex: 1; border-bottom: 1px solid #e5e5e5;
+}
+.separator::before { margin-right: 1em; }
+.separator::after { margin-left: 1em; }
+
+/* --- MEDIA QUERIES --- */
+@media (max-width: 992px) {
+  #main-header .navbar { padding: 1rem 1.5rem; }
+  #main-header .main-menu { display: none; }
+  #main-header .hamburger { display: block; }
+}
+
+/* --- REACT-SPECIFIC RULES --- */
+.page-overlay.open { display: block; opacity: 1; visibility: visible; }
+.login-signup-panel.open { transform: translateX(0); }
+.login-signup-panel .form-container { display: block; }
+.mobile-nav.open { opacity: 1; visibility: visible; }
+#main-header .hamburger.open .bar:nth-child(1) { transform: rotate(-45deg) translate(-5px, 6px); }
+#main-header .hamburger.open .bar:nth-child(2) { opacity: 0; }
+#main-header .hamburger.open .bar:nth-child(3) { transform: rotate(45deg) translate(-5px, -6px); }
+.form-error-message {
+  color: #D8000C; background-color: #FFBABA; border: 1px solid;
+  border-radius: 4px; margin-bottom: 15px; padding: 10px;
+  font-size: 0.9rem; font-family: var(--font-body); text-align: center;
+}
+.google-btn-container {
+  display: flex;
+  justify-content: center;
+}
