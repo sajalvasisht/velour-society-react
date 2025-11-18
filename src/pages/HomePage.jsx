@@ -4,7 +4,7 @@ import { GoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from "jwt-decode";
 import './HomePage.css'; // <-- THIS IS THE RE-ADDED IMPORT THAT FIXES EVERYTHING
 
-// This is the Login/Signup Panel Component
+// This component is the Login/Signup Panel
 const LoginPanel = ({ isOpen, onClose, onTabChange, activeTab }) => {
   const [loginEmail, setLoginEmail] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
