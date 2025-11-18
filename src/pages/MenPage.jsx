@@ -14,7 +14,7 @@ function MenPage() {
   }, []);
 
   useEffect(() => {
-    // <-- FIXED: Added /api/ prefix
+    
     fetch('/api/men') 
       .then(response => response.json())
       .then(data => setProducts(data))
