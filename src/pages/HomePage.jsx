@@ -1,11 +1,13 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, memo } from 'react'; // <-- We add 'memo'
 import { Link } from 'react-router-dom';
 import { GoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from "jwt-decode";
-import './HomePage.css'; // <-- THIS IS THE RE-ADDED IMPORT THAT FIXES EVERYTHING
+import './HomePage.css'; // This is the page-specific CSS we created
 
-// This component is the Login/Signup Panel
-const LoginPanel = ({ isOpen, onClose, onTabChange, activeTab }) => {
+// --- COMPONENT 1: The Login/Signup Panel ---
+// (This is the same as before)
+const LoginPanel = ({ isOpen, onClose }) => {
+  const [activeTab, setActiveTab] = useState('login');
   const [loginEmail, setLoginEmail] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
   const [loginError, setLoginError] = useState('');
@@ -64,7 +66,7 @@ const LoginPanel = ({ isOpen, onClose, onTabChange, activeTab }) => {
       if (registerResponse.ok) {
         alert(`Sign Up Successful! Welcome, ${signupName}.`);
         setSignupName(''); setSignupEmail(''); setSignupPassword('');
-        onTabChange('login');
+        setActiveTab('login'); // Switch to login
       } else {
         setSignupError('Registration failed on server.');
       }
@@ -98,13 +100,13 @@ const LoginPanel = ({ isOpen, onClose, onTabChange, activeTab }) => {
         <div className="panel-content">
           <div className="form-toggle">
             <div
-              onClick={() => onTabChange('login')}
+              onClick={() => setActiveTab('login')}
               className={`toggle-btn ${activeTab === 'login' ? 'active' : ''}`}
             >
               Login
             </div>
             <div
-              onClick={() => onTabChange('signup')}
+              onClick={() => setActiveTab('signup')}
               className={`toggle-btn ${activeTab === 'signup' ? 'active' : ''}`}
             >
               Sign Up
@@ -170,7 +172,8 @@ const LoginPanel = ({ isOpen, onClose, onTabChange, activeTab }) => {
   );
 };
 
-// This component is the Mobile Nav Panel
+// --- COMPONENT 2: The Mobile Nav Panel ---
+// (This is the same as before)
 const MobileNav = ({ isOpen, onClose }) => {
   return (
     <nav className={`mobile-nav ${isOpen ? 'open' : ''}`}>
@@ -181,28 +184,126 @@ const MobileNav = ({ isOpen, onClose }) => {
   );
 };
 
-// This is the main Home Page component
-function HomePage() {
-  const [isPanelOpen, setIsPanelOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState('login');
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+// --- COMPONENT 3: THE MEMOIZED PAGE CONTENT (THIS IS THE FIX) ---
+// We wrap this entire component in React.memo().
+// This tells React: "Never re-render this component."
+// This means the videos will never be stopped or restarted.
+const PageContent = memo(() => {
   const scrollRef = useRef(null);
 
-  // --- THIS IS THE SCROLLING & VIDEO FIX ---
+  // This hook adds/removes the 'no-scroll' class to the <body>
   useEffect(() => {
-    // 1. Add the .no-scroll class to the <body> to lock it
     document.body.classList.add('no-scroll');
-    
-    // 2. Focus the inner container so keyboard/touch scrolling works
     if (scrollRef.current) {
       scrollRef.current.focus();
     }
-    
-    // 3. This "cleanup" function runs when you leave the page
     return () => {
       document.body.classList.remove('no-scroll');
     };
-  }, []); // The empty [] means this runs only once
+  }, []); // Runs only once
+
+  return (
+    <main className="scroll-container" ref={scrollRef} tabIndex="-1">
+      <section className="hero snap-section" id="main-hero">
+        <video autoPlay muted loop playsInline className="hero-video-bg">
+          <source src="/videos/main.mp4" type="video/mp4" />
+        </video>
+        <div className="video-overlay"></div>
+        <div className="hero-content">
+          <h1>The Fall 2025 Collection</h1>
+          <p>Experience timeless luxury with Velour Society</p>
+          <a href="#featured-collection" className="cta-button">Explore Now</a>
+        </div>
+        <div className="scroll-down">
+          <a href="#featured-collection">Scroll</a>
+        </div>
+      </section>
+      <section className="hero snap-section" id="featured-collection">
+        <video autoPlay muted loop playsInline className="hero-video-bg">
+            <source src="/videos/Featured_collection.mp4" type="video/mp4" />
+        </video>
+        <div className="video-overlay"></div>
+        <div className="hero-content">
+          <h1>Featured Collection</h1>
+          <p>Curated pieces that define modern elegance.</p>
+          <Link to="/latest-arrivals" className="cta-button">View All</Link>
+        </div>
+        <div className="scroll-down">
+          <a href="#shop-by-category-hero">Scroll</a>
+        </div>
+      </section>
+      <section className="hero snap-section" id="shop-by-category-hero">
+        <video autoPlay muted loop playsInline className="hero-video-bg">
+            <source src="/videos/category.mp4" type="video/mp4" />
+        </video>
+        <div className="video-overlay"></div>
+        <div className="hero-content">
+          <h1>Shop By Category</h1>
+          <p>Find your signature style with our dedicated collections.</p>
+          <Link to="/categories" className="cta-button">Discover</Link>
+        </div>
+         <div className="scroll-down">
+          <a href="#our-story">Scroll</a>
+        </div>
+      </section>
+      <section className="brand-story snap-section" id="our-story">
+        <div className="story-parallax-bg"></div>
+        <div className="story-content">
+          <h2>The Velour Legacy</h2>
+          <p>Founded on the principles of enduring style and meticulous craftsmanship, Velour Society is more than a brand; it's a narrative of modern luxury. We believe in creating pieces that are both timeless and contemporary, designed to be cherished for years to come.</p>
+          <p>Each garment is born from the finest materials, sourced responsibly and transformed by artisans who share our passion for quality. Our philosophy is simple: to create beautiful, meaningful apparel that empowers the individual.</p>
+        </div>
+      </section>
+      <footer className="enhanced-footer snap-section" id="page-footer">
+        <div className="footer-grid">
+          <div className="footer-column">
+            <h4>Shop</h4>
+            <ul>
+              <li><Link to="/latest-arrivals">New Arrivals</Link></li>
+              <li><Link to="/men">Men</Link></li>
+              <li><Link to="/women">Women</Link></li>
+              <li><Link to="/accessories">Accessories</Link></li>
+            </ul>
+          </div>
+          <div className="footer-column">
+            <h4>Our Company</h4>
+            <ul>
+              <li><a href="#our-story">About Us</a></li>
+              <li><a href="#">Journal</a></li>
+              <li><a href="#">Careers</a></li>
+            </ul>
+          </div>
+          <div className="footer-column">
+            <h4>Customer Service</h4>
+            <ul>
+              <li><Link to="/contact">Contact</Link></li>
+              <li><Link to="/shipping">Shipping</Link></li>
+              <li><Link to="/returns">Returns</Link></li>
+            </ul>
+          </div>
+          <div className="footer-column">
+            <h4>Stay Connected</h4>
+            <div className="newsletter-form">
+              <p>Join our mailing list for exclusive updates and offers.</p>
+              <div className="newsletter-input">
+                <input type="email" placeholder="Enter your email" />
+                <button>Join</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="footer-bottom">
+          <p>© 2025 Velour Society. All Rights Reserved.</p>
+        </div>
+      </footer>
+    </main>
+  );
+});
+
+// --- COMPONENT 4: The Main Home Page (The "Shell") ---
+function HomePage() {
+  const [isPanelOpen, setIsPanelOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const closeAll = () => {
     setIsPanelOpen(false);
@@ -210,7 +311,6 @@ function HomePage() {
   };
 
   return (
-    // We removed the wrapper div. The page is now just the content.
     <>
       <header id="main-header">
         <nav className="navbar">
@@ -237,109 +337,12 @@ function HomePage() {
         </nav>
       </header>
       
+      {/* These components can re-render without affecting the PageContent */}
       <MobileNav isOpen={isMobileMenuOpen} onClose={closeAll} />
-      <LoginPanel 
-        isOpen={isPanelOpen} 
-        onClose={() => setIsPanelOpen(false)}
-        activeTab={activeTab}
-        onTabChange={setActiveTab}
-      />
+      <LoginPanel isOpen={isPanelOpen} onClose={() => setIsPanelOpen(false)} />
 
-      <main className="scroll-container" ref={scrollRef} tabIndex="-1">
-        {/* We add 'playsInline' to all videos to help with mobile playback */}
-        <section className="hero snap-section" id="main-hero">
-          <video autoPlay muted loop playsInline className="hero-video-bg">
-            <source src="/videos/main.mp4" type="video/mp4" />
-          </video>
-          <div className="video-overlay"></div>
-          <div className="hero-content">
-            <h1>The Fall 2025 Collection</h1>
-            <p>Experience timeless luxury with Velour Society</p>
-            <a href="#featured-collection" className="cta-button">Explore Now</a>
-          </div>
-          <div className="scroll-down">
-            <a href="#featured-collection">Scroll</a>
-          </div>
-        </section>
-        <section className="hero snap-section" id="featured-collection">
-          <video autoPlay muted loop playsInline className="hero-video-bg">
-              <source src="/videos/Featured_collection.mp4" type="video/mp4" />
-          </video>
-          <div className="video-overlay"></div>
-          <div className="hero-content">
-            <h1>Featured Collection</h1>
-            <p>Curated pieces that define modern elegance.</p>
-            <Link to="/latest-arrivals" className="cta-button">View All</Link>
-          </div>
-          <div className="scroll-down">
-            <a href="#shop-by-category-hero">Scroll</a>
-          </div>
-        </section>
-        <section className="hero snap-section" id="shop-by-category-hero">
-          <video autoPlay muted loop playsInline className="hero-video-bg">
-              <source src="/videos/category.mp4" type="video/mp4" />
-          </video>
-          <div className="video-overlay"></div>
-          <div className="hero-content">
-            <h1>Shop By Category</h1>
-            <p>Find your signature style with our dedicated collections.</p>
-            <Link to="/categories" className="cta-button">Discover</Link>
-          </div>
-           <div className="scroll-down">
-            <a href="#our-story">Scroll</a>
-          </div>
-        </section>
-        <section className="brand-story snap-section" id="our-story">
-          <div className="story-parallax-bg"></div>
-          <div className="story-content">
-            <h2>The Velour Legacy</h2>
-            <p>Founded on the principles of enduring style and meticulous craftsmanship, Velour Society is more than a brand; it's a narrative of modern luxury. We believe in creating pieces that are both timeless and contemporary, designed to be cherished for years to come.</p>
-            <p>Each garment is born from the finest materials, sourced responsibly and transformed by artisans who share our passion for quality. Our philosophy is simple: to create beautiful, meaningful apparel that empowers the individual.</p>
-          </div>
-        </section>
-        <footer className="enhanced-footer snap-section" id="page-footer">
-          <div className="footer-grid">
-            <div className="footer-column">
-              <h4>Shop</h4>
-              <ul>
-                <li><Link to="/latest-arrivals">New Arrivals</Link></li>
-                <li><Link to="/men">Men</Link></li>
-                <li><Link to="/women">Women</Link></li>
-                <li><Link to="/accessories">Accessories</Link></li>
-              </ul>
-            </div>
-            <div className="footer-column">
-              <h4>Our Company</h4>
-              <ul>
-                <li><a href="#our-story">About Us</a></li>
-                <li><a href="#">Journal</a></li>
-                <li><a href="#">Careers</a></li>
-              </ul>
-            </div>
-            <div className="footer-column">
-              <h4>Customer Service</h4>
-              <ul>
-                <li><Link to="/contact">Contact</Link></li>
-                <li><Link to="/shipping">Shipping</Link></li>
-                <li><Link to="/returns">Returns</Link></li>
-              </ul>
-            </div>
-            <div className="footer-column">
-              <h4>Stay Connected</h4>
-              <div className="newsletter-form">
-                <p>Join our mailing list for exclusive updates and offers.</p>
-                <div className="newsletter-input">
-                  <input type="email" placeholder="Enter your email" />
-                  <button>Join</button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="footer-bottom">
-            <p>© 2025 Velour Society. All Rights Reserved.</p>
-          </div>
-        </footer>
-      </main>
+      {/* This component will NOT re-render when the panels open/close */}
+      <PageContent />
     </>
   );
 }
