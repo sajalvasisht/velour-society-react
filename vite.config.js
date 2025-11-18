@@ -7,13 +7,14 @@ export default defineConfig({
   
   server: {
     proxy: {
-      // --- THIS IS THE FIX ---
-      // We are now only proxying links that start with /api
-      '/api/users': 'http://localhost:3000/users',
-      '/api/men': 'http://localhost:3000/men',
-      '/api/women': 'http://localhost:3000/women',
-      '/api/accessories': 'http://localhost:3000/accessories',
-      '/api/arrivals': 'http://localhost:3000/arrivals'
+      // --- THIS IS THE CORRECT PROXY ---
+      // It forwards ANY request starting with /api 
+      // to your json-server at port 3000
+      '/api': {
+        target: 'http://localhost:3000',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ''), // This removes "/api" from the link
+      },
     }
   },
   
